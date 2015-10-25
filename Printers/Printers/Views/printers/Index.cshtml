@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Printers.Models.printers>
+
+@{
+    ViewBag.Title = "Stockton University Printers";
+}
+
+<h2>Stockton University Printers</h2>
+
+<div class="btn btn-info">
+    @Html.ActionLink("Create New", "Create")
+</div>
+
+@using (Html.BeginForm("Index", "Printers", FormMethod.Get))
+{
+    <p>
+        <br />
+        Search: @Html.TextBox("search")
+        <input type="submit" value="Search" class="btn btn-success" />
+        @Html.ActionLink("Display All", "Index", null, new { @class = "btn btn-warning" })
+    </p>
+}
+
+@using GridMvc.Html
+@Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(printer => printer.Room).Sortable(true);
+    columns.Add(printer => printer.Model).Sortable(true);
+    columns.Add(printer => printer.Toner).Sortable(true);
+    columns.Add(printer => printer.IPaddress).Sortable(true);
+    columns.Add(printer => printer.Server).Sortable(true);
+
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(50).RenderValueAs(item => @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-info" }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(50).RenderValueAs(item => @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-warning" }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(50).RenderValueAs(item => @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" }));
+
+})
+
